@@ -1,0 +1,22 @@
+{
+  "name": "battleships",
+  "version": "0.0.0",
+  "description": "A simple implementation of the seafaring PVP game",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/liamness/battleships.git"
+  },
+  "devDependencies": {
+    "babel-loader": "^5.3.2",
+    "browser-sync": "^2.7.5",
+    "del": "^2.0.0",
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.11.2",
+    "gulp-sass": "^2.0.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "jshint-stylish": "^2.0.0",
+    "node-bourbon": "^4.2.3",
+    "normalize.css": "^3.0.3",
+    "webpack": "^1.12.0"
+  }
+}

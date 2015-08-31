@@ -1,0 +1,98 @@
+@import "bourbon";
+
+@import "node_modules/normalize.css/normalize";
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    width: 100%; height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.game {
+    @include user-select(none);
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.notification-area {
+    padding: 1em;
+    height: 1em;
+    line-height: 1;
+}
+
+// variables for grid styling to make resizing easy
+
+$grid-spacing: 32px;
+$grid-line-size: 1px;
+$grid-line-color: #ccc;
+$grid-gradient:
+    $grid-line-color,
+    $grid-line-color $grid-line-size,
+    transparent $grid-line-size,
+    transparent $grid-spacing - $grid-line-size,
+    $grid-line-color $grid-spacing - $grid-line-size,
+    $grid-line-color $grid-spacing;
+
+// grid
+
+.grid {
+    position: relative;
+    width: $grid-spacing * 10; height: $grid-spacing * 10;
+    background-image: repeating-linear-gradient($grid-gradient), repeating-linear-gradient(90deg, $grid-gradient);
+    border: $grid-line-size solid $grid-line-color;
+}
+
+// ships
+
+.grid__ship, .grid__shot {
+    pointer-events: none;
+}
+
+.grid__ship {
+    @include transition(opacity 0.2s linear);
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    border-radius: $grid-spacing / 2;
+    background: rgba(0,0,0,0.5);
+    &--hide { opacity: 0; }
+}
+
+.grid__ship--highlight {
+    background: rgba(255,0,0,0.5);
+    border-color: #f00;
+}
+
+// shots
+
+.grid__shot {
+    @include transition-property(opacity, transform);
+    @include transition-duration(0.1s);
+    @include transition-timing-function(ease-in-out);
+    position: absolute;
+    box-sizing: border-box;
+    margin: $grid-spacing / 4;
+    width: $grid-spacing / 2; height: $grid-spacing / 2;
+    background: #000;
+    border-radius: 50%;
+    &--hide {
+        opacity: 0;
+        @include transform(scale(0.75));
+    }
+}
+
+.grid__shot--hit {
+    background: #f00;
+}
