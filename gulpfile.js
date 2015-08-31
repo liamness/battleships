@@ -1,5 +1,6 @@
 var bs = require('browser-sync').create(),
     del = require('del'),
+    filter = require('gulp-filter'),
     gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     sass = require('gulp-sass'),
@@ -72,8 +73,9 @@ gulp.task('sass-watch', function(done) {
             outputStyle: 'expanded'
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(bs.reload({ stream: true }))
-        .pipe(gulp.dest('public'));
+        .pipe(gulp.dest('public'))
+        .pipe(filter('*.css'))
+        .pipe(bs.stream());
 });
 
 gulp.task('js-watch', function() {

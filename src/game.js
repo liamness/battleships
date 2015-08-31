@@ -1,12 +1,10 @@
 import constants from './constants';
+import Crosshair from './crosshair';
 import Ship from './ship';
 import Shot from './shot';
 
 export default (function() {
     'use strict';
-
-    // variables
-    var opponentShips, playerShips, opponentShots, playerShots;
 
     // dom elements
     var notificationArea = document.getElementsByClassName('notification-area')[0],
@@ -14,7 +12,11 @@ export default (function() {
         opponentShipElems = opponentGrid.querySelectorAll('.grid__ships .grid__ship'),
         playerGrid = document.getElementsByClassName('grid--player')[0],
         playerShipElems = playerGrid.querySelectorAll('.grid__ships .grid__ship'),
-        playerCrossHair = playerGrid.getElementsByClassName('.grid__crosshair')[0];
+        playerCrosshairElem = opponentGrid.getElementsByClassName('grid__crosshair')[0];
+
+    // variables
+    var opponentShips, playerShips, opponentShots, playerShots,
+        crosshair = new Crosshair(playerCrosshairElem);
 
     // constructor
     function Game() {
@@ -65,9 +67,9 @@ export default (function() {
                 ship.move([newX, newY]);
 
                 if(ship.checkNotIntersecting(playerShips)) {
-                    ship.setValid(true);
+                    ship.setHighlight(false);
                 } else {
-                    ship.setValid(false);
+                    ship.setHighlight(true);
                 }
             }
         };
@@ -77,15 +79,15 @@ export default (function() {
                 ship.rotate();
 
                 if(ship.checkNotIntersecting(playerShips)) {
-                    ship.setValid(true);
+                    ship.setHighlight(false);
                 } else {
-                    ship.setValid(false);
+                    ship.setHighlight(true);
                 }
             }
         };
 
         var clickListener = function() {
-            if(ship.valid) {
+            if(!ship.highlight) {
                 playerGrid.removeEventListener('mousemove', mousemoveListener);
                 window.removeEventListener('keyup', keyupListener);
                 playerGrid.removeEventListener('click', clickListener);
@@ -114,6 +116,7 @@ export default (function() {
                 playerPlaceShip(newIndex);
             } else {
                 window.removeEventListener('PLAYER_PLACED_SHIP', shipPlacedListener);
+                opponentPlaceShip(0);
                 self.setState('shoot');
             }
         };
@@ -132,18 +135,23 @@ export default (function() {
         var shot = new Shot('player');
 
         var mousemoveListener = function(e) {
-            if(!shot.visible) { shot.setVisible(true); }
+            if(!crosshair.visible) { crosshair.setVisible(true); }
 
             var newX = checkInBounds(Math.floor(e.offsetX / constants.gridSpacing)),
                 newY = checkInBounds(Math.floor(e.offsetY / constants.gridSpacing));
 
-            if(newX !== shot.pos[0] || newY !== shot.pos[1]) { shot.move([newX, newY]); }
+            if(newX !== shot.pos[0] || newY !== shot.pos[1]) {
+                shot.move([newX, newY]);
+                crosshair.move([newX, newY]);
+            }
         };
 
         var clickListener = function() {
             // check we haven't already taken this shot
             if(shot.checkNotIntersecting(playerShots)) {
                 playerShots.push(shot);
+                shot.setVisible(true);
+                crosshair.setVisible(false);
 
                 opponentGrid.removeEventListener('click', clickListener);
                 opponentGrid.removeEventListener('mousemove', mousemoveListener);
@@ -236,7 +244,6 @@ export default (function() {
 
                 notify('Place your ships');
                 playerPlaceShips.call(this);
-                opponentPlaceShip(0);
                 break;
         }
 

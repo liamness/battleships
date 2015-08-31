@@ -3,13 +3,17 @@ import constants from './constants';
 export default (function() {
     'use strict';
 
+    // variables
+    var hideClass = 'grid__ship--hide',
+        highlightClass = 'grid__ship--highlight';
+
     // constructor
-    function Ship(elem, size, pos, valid, visible) {
+    function Ship(elem, size, pos) {
         this.elem = elem;
         this.size = size;
         this.pos = pos || [-1, -1];
-        this.valid = valid || false;
-        this.visible = visible || false;
+        this.highlight = false;
+        this.visible = false;
         this.hits = 0;
         this.sunk = false;
     }
@@ -42,22 +46,22 @@ export default (function() {
     // public methods
     Ship.prototype.setVisible = function(visible) {
         if(visible) {
-            this.elem.classList.remove('hide');
+            this.elem.classList.remove(hideClass);
         } else {
-            this.elem.classList.add('hide');
+            this.elem.classList.add(hideClass);
         }
 
         this.visible = visible;
     };
 
-    Ship.prototype.setValid = function(valid) {
-        if(valid) {
-            this.elem.classList.remove('grid__ship--highlight');
+    Ship.prototype.setHighlight = function(highlight) {
+        if(highlight) {
+            this.elem.classList.add(highlightClass);
         } else {
-            this.elem.classList.add('grid__ship--highlight');
+            this.elem.classList.remove(highlightClass);
         }
 
-        this.valid = valid;
+        this.highlight = highlight;
     };
 
     Ship.prototype.move = function(position) {
@@ -104,7 +108,7 @@ export default (function() {
         ) {
             if(++this.hits === this.size[0] * this.size[1]) {
                 this.sunk = true;
-                this.elem.classList.add('grid__ship--highlight');
+                this.setHighlight(true);
 
                 if(!this.visible) { this.setVisible(true); }
             }

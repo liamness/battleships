@@ -9,10 +9,15 @@ export default (function() {
         playerGrid = document.getElementsByClassName('grid--player')[0],
         playerShotsElem = playerGrid.getElementsByClassName('grid__shots')[0];
 
+    // variables
+    var className = 'grid__shot',
+        hideClass = 'grid__shot--hide',
+        hitClass = 'grid__shot--hit';
+
     // constructor
     function Shot(player) {
         this.elem = document.createElement('div');
-        this.elem.className = 'grid__shot hide';
+        this.elem.classList.add(className, hideClass);
 
         if(player === 'opponent') {
             playerShotsElem.appendChild(this.elem);
@@ -41,9 +46,9 @@ export default (function() {
     // public methods
     Shot.prototype.setVisible = function(visible) {
         if(visible) {
-            this.elem.classList.remove('hide');
+            this.elem.classList.remove(hideClass);
         } else {
-            this.elem.classList.add('hide');
+            this.elem.classList.add(hideClass);
         }
 
         this.visible = visible;
@@ -51,9 +56,9 @@ export default (function() {
 
     Shot.prototype.setHit = function(hit) {
         if(hit) {
-            this.elem.classList.add('grid__shot--hit');
+            this.elem.classList.add(hitClass);
         } else {
-            this.elem.classList.remove('grid__shot--hit');
+            this.elem.classList.remove(hitClass);
         }
 
         this.hit = hit;
