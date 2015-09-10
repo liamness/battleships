@@ -32,22 +32,38 @@ body {
 
 $grid-spacing: 32px;
 $grid-line-size: 1px;
-$grid-line-color: #ccc;
-$grid-gradient:
-    $grid-line-color,
-    $grid-line-color $grid-line-size,
+$grid-opponent-line-color: #eca;
+$grid-player-line-color: #ace;
+$grid-opponent-gradient:
+    $grid-opponent-line-color,
+    $grid-opponent-line-color $grid-line-size,
     transparent $grid-line-size,
     transparent $grid-spacing - $grid-line-size,
-    $grid-line-color $grid-spacing - $grid-line-size,
-    $grid-line-color $grid-spacing;
+    $grid-opponent-line-color $grid-spacing - $grid-line-size,
+    $grid-opponent-line-color $grid-spacing;
+$grid-player-gradient:
+    $grid-player-line-color,
+    $grid-player-line-color $grid-line-size,
+    transparent $grid-line-size,
+    transparent $grid-spacing - $grid-line-size,
+    $grid-player-line-color $grid-spacing - $grid-line-size,
+    $grid-player-line-color $grid-spacing;
 
 // grid
 
 .grid {
     position: relative;
     width: $grid-spacing * 10; height: $grid-spacing * 10;
-    background-image: repeating-linear-gradient($grid-gradient), repeating-linear-gradient(90deg, $grid-gradient);
-    border: $grid-line-size solid $grid-line-color;
+    border-width: $grid-line-size;
+    border-style: solid;
+    &--opponent {
+        border-color: $grid-opponent-line-color;
+        background-image: repeating-linear-gradient($grid-opponent-gradient), repeating-linear-gradient(90deg, $grid-opponent-gradient);
+    }
+    &--player {
+        border-color: $grid-player-line-color;
+        background-image: repeating-linear-gradient($grid-player-gradient), repeating-linear-gradient(90deg, $grid-player-gradient);
+    }
 }
 
 // crosshair
