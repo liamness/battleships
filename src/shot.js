@@ -39,7 +39,7 @@ export default (function() {
 
     function checkNotIntersecting(otherShot) {
         /* jshint validthis:true */
-        
+
         return (this.pos[0] !== otherShot.pos[0] || this.pos[1] !== otherShot.pos[1]);
     }
 

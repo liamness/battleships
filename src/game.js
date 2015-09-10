@@ -129,12 +129,14 @@ export default (function() {
     // code for firing
     function playerShoot() {
         /* jshint validthis:true */
-        
+
         var self = this;
 
-        var shot = new Shot('player');
+        var shot;
 
         var mousemoveListener = function(e) {
+            if(!shot) { shot = new Shot('player'); }
+
             if(!crosshair.visible) { crosshair.setVisible(true); }
 
             var newX = checkInBounds(Math.floor(e.offsetX / constants.gridSpacing)),
@@ -148,7 +150,7 @@ export default (function() {
 
         var clickListener = function() {
             // check we haven't already taken this shot
-            if(shot.checkNotIntersecting(playerShots)) {
+            if(shot && shot.checkNotIntersecting(playerShots)) {
                 playerShots.push(shot);
                 shot.setVisible(true);
                 crosshair.setVisible(false);
@@ -232,7 +234,7 @@ export default (function() {
                 opponentShots.concat(playerShots).forEach(function(shot) {
                     shot.destroy();
                 });
-                
+
                 /* falls through */
             case 'start':
                 /* falls through */
