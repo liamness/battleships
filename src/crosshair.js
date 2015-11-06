@@ -26,23 +26,28 @@ export default (function() {
         this.elem.style.top = this.pos[1] * constants.gridSpacing + 'px';
     }
 
-    // public methods
-    Crosshair.prototype.setVisible = function(visible) {
-        if(visible) {
-            this.elem.classList.remove(hideClass);
-        } else {
-            this.elem.classList.add(hideClass);
+    return class {
+        constructor(elem) {
+            this.elem = elem;
+            this.pos = [-1, -1];
+            this.visible = false;
         }
 
-        this.visible = visible;
-    };
+        setVisible(visible) {
+            if(visible) {
+                this.elem.classList.remove(hideClass);
+            } else {
+                this.elem.classList.add(hideClass);
+            }
 
-    Crosshair.prototype.move = function(position) {
-        if(position[0] !== this.pos[0] || position[1] !== this.pos[1]) {
-            this.pos = position;
-            requestAnimationFrame(draw.bind(this));
+            this.visible = visible;
+        }
+
+        move(position) {
+            if(position[0] !== this.pos[0] || position[1] !== this.pos[1]) {
+                this.pos = position;
+                requestAnimationFrame(draw.bind(this));
+            }
         }
     };
-
-    return Crosshair;
 })();

@@ -18,11 +18,6 @@ export default (function() {
     var opponentShips, playerShips, opponentShots, playerShots,
         crosshair = new Crosshair(playerCrosshairElem);
 
-    // constructor
-    function Game() {
-        this.setState('start');
-    }
-
     // private functions
     function notify(notification) {
         notificationArea.textContent = notification;
@@ -107,9 +102,7 @@ export default (function() {
     function playerPlaceShips() {
         /* jshint validthis:true */
 
-        var self = this;
-
-        var shipPlacedListener = function(e) {
+        var shipPlacedListener = (e) => {
             var newIndex = ++e.detail.index;
 
             if(newIndex < constants.shipSizes.length) {
@@ -117,7 +110,7 @@ export default (function() {
             } else {
                 window.removeEventListener('PLAYER_PLACED_SHIP', shipPlacedListener);
                 opponentPlaceShip(0);
-                self.setState('shoot');
+                this.setState('shoot');
             }
         };
 
@@ -130,11 +123,9 @@ export default (function() {
     function playerShoot() {
         /* jshint validthis:true */
 
-        var self = this;
-
         var shot;
 
-        var mousemoveListener = function(e) {
+        var mousemoveListener = (e) => {
             if(!shot) { shot = new Shot('player'); }
 
             if(!crosshair.visible) { crosshair.setVisible(true); }
@@ -148,7 +139,7 @@ export default (function() {
             }
         };
 
-        var clickListener = function() {
+        var clickListener = () => {
             // check we haven't already taken this shot
             if(shot && shot.checkNotIntersecting(playerShots)) {
                 playerShots.push(shot);
@@ -159,12 +150,12 @@ export default (function() {
                 opponentGrid.removeEventListener('mousemove', mousemoveListener);
 
                 // check if we've hit anything
-                var success = opponentShips.some(function(ship) {
+                var success = opponentShips.some((ship) => {
                     if (ship.checkHit(shot)) {
                         if(ship.sunk) {
-                            self.setState('sunk');
+                            this.setState('sunk');
                         } else {
-                            self.setState('hit');
+                            this.setState('hit');
                         }
 
                         return true;
@@ -175,11 +166,11 @@ export default (function() {
                     shot.setHit(true);
 
                     // check if we've sunk all the ships
-                    if(opponentShips.every(function(ship) { return ship.sunk; })) {
-                        self.setState('win');
+                    if(opponentShips.every((ship) => ship.sunk )) {
+                        this.setState('win');
                     }
                 } else {
-                    self.setState('miss');
+                    this.setState('miss');
                 }
             }
         };
@@ -188,69 +179,70 @@ export default (function() {
         opponentGrid.addEventListener('click', clickListener);
     }
 
-    // public functions
-    Game.prototype.setState = function(state) {
-        if(state !== 'reset' && this.state === 'win') {
-            return;
+    return class {
+        constructor() {
+            this.setState('start');
         }
 
-        var self = this;
+        setState(state) {
+            if(state !== 'reset' && this.state === 'win') {
+                return;
+            }
 
-        switch(state) {
-            case 'shoot':
-                notify('Take aim');
-                playerShoot.call(this);
-                break;
-            case 'miss':
-                notify('You missed...');
-                setTimeout(function() { self.setState('shoot'); }, 500);
-                break;
-            case 'hit':
-                notify('Direct hit!');
-                setTimeout(function() { self.setState('shoot'); }, 500);
-                break;
-            case 'sunk':
-                notify('Ship sunk!');
-                setTimeout(function() { self.setState('shoot'); }, 500);
-                break;
-            case 'win':
-                notify('You won! Click here to try again');
+            switch(state) {
+                case 'shoot':
+                    notify('Take aim');
+                    playerShoot.call(this);
+                    break;
+                case 'miss':
+                    notify('You missed...');
+                    setTimeout(() => { this.setState('shoot'); }, 500);
+                    break;
+                case 'hit':
+                    notify('Direct hit!');
+                    setTimeout(() => { this.setState('shoot'); }, 500);
+                    break;
+                case 'sunk':
+                    notify('Ship sunk!');
+                    setTimeout(() => { this.setState('shoot'); }, 500);
+                    break;
+                case 'win':
+                    notify('You won! Click here to try again');
 
-                var clickListener = function() {
-                    self.setState('reset');
-                    notificationArea.removeEventListener('click', clickListener);
-                };
+                    var clickListener = () => {
+                        this.setState('reset');
+                        notificationArea.removeEventListener('click', clickListener);
+                    };
 
-                notificationArea.addEventListener('click', clickListener);
+                    notificationArea.addEventListener('click', clickListener);
 
-                break;
-            case 'reset':
-                // hide ships
-                opponentShips.concat(playerShips).forEach(function(ship) {
-                    ship.setVisible(false);
-                });
+                    break;
+                case 'reset':
+                    // hide ships
+                    opponentShips.concat(playerShips).forEach(function(ship) {
+                        ship.setVisible(false);
+                    });
 
-                // remove shots
-                opponentShots.concat(playerShots).forEach(function(shot) {
-                    shot.destroy();
-                });
+                    // remove shots
+                    opponentShots.concat(playerShots).forEach(function(shot) {
+                        shot.destroy();
+                    });
 
-                /* falls through */
-            case 'start':
-                /* falls through */
-            default:
-                opponentShips = [];
-                playerShips = [];
-                opponentShots = [];
-                playerShots = [];
+                    /* falls through */
+                case 'start':
+                    /* falls through */
+                default:
+                    opponentShips = [];
+                    playerShips = [];
+                    opponentShots = [];
+                    playerShots = [];
 
-                notify('Place your ships');
-                playerPlaceShips.call(this);
-                break;
+                    notify('Place your ships');
+                    playerPlaceShips.call(this);
+                    break;
+            }
+
+            this.state = state;
         }
-
-        this.state = state;
     };
-
-    return Game;
 })();

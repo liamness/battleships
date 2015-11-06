@@ -14,21 +14,6 @@ export default (function() {
         hideClass = 'grid__shot--hide',
         hitClass = 'grid__shot--hit';
 
-    // constructor
-    function Shot(player) {
-        this.elem = document.createElement('div');
-        this.elem.classList.add(className, hideClass);
-
-        if(player === 'opponent') {
-            playerShotsElem.appendChild(this.elem);
-        } else if(player === 'player') {
-            opponentShotsElem.appendChild(this.elem);
-        }
-
-        this.pos = [-1, -1];
-        this.visible = false;
-    }
-
     // private methods
     function draw() {
         /* jshint validthis:true */
@@ -43,45 +28,54 @@ export default (function() {
         return (this.pos[0] !== otherShot.pos[0] || this.pos[1] !== otherShot.pos[1]);
     }
 
-    // public methods
-    Shot.prototype.setVisible = function(visible) {
-        if(visible) {
-            this.elem.classList.remove(hideClass);
-        } else {
-            this.elem.classList.add(hideClass);
+    return class {
+        constructor(player) {
+            this.elem = document.createElement('div');
+            this.elem.classList.add(className, hideClass);
+
+            if(player === 'opponent') {
+                playerShotsElem.appendChild(this.elem);
+            } else if(player === 'player') {
+                opponentShotsElem.appendChild(this.elem);
+            }
+
+            this.pos = [-1, -1];
+            this.visible = false;
         }
 
-        this.visible = visible;
-    };
+        setVisible(visible) {
+            if(visible) {
+                this.elem.classList.remove(hideClass);
+            } else {
+                this.elem.classList.add(hideClass);
+            }
 
-    Shot.prototype.setHit = function(hit) {
-        if(hit) {
-            this.elem.classList.add(hitClass);
-        } else {
-            this.elem.classList.remove(hitClass);
+            this.visible = visible;
         }
 
-        this.hit = hit;
-    };
+        setHit(hit) {
+            if(hit) {
+                this.elem.classList.add(hitClass);
+            } else {
+                this.elem.classList.remove(hitClass);
+            }
 
-    Shot.prototype.move = function(position) {
-        if(position[0] !== this.pos[0] || position[1] !== this.pos[1]) {
-            this.pos = position;
-            requestAnimationFrame(draw.bind(this));
+            this.hit = hit;
+        }
+
+        move(position) {
+            if(position[0] !== this.pos[0] || position[1] !== this.pos[1]) {
+                this.pos = position;
+                requestAnimationFrame(draw.bind(this));
+            }
+        }
+
+        checkNotIntersecting(shots) {
+            return shots.every((otherShot) => checkNotIntersecting.call(this, otherShot));
+        }
+
+        destroy() {
+            this.elem.parentNode.removeChild(this.elem);
         }
     };
-
-    Shot.prototype.checkNotIntersecting = function(shots) {
-        var self = this;
-
-        return shots.every(function(otherShot) {
-            return checkNotIntersecting.call(self, otherShot);
-        });
-    };
-
-    Shot.prototype.destroy = function() {
-        this.elem.parentNode.removeChild(this.elem);
-    };
-
-    return Shot;
 })();

@@ -21,7 +21,7 @@ var webpackOptions = {
 };
 
 // build tasks
-gulp.task('clean', function() {
+gulp.task('clean', () => {
     del([
         'public/*.css',
         'public/*.js',
@@ -29,7 +29,7 @@ gulp.task('clean', function() {
     ]);
 });
 
-gulp.task('js', function(done) {
+gulp.task('js', (done) => {
     webpack({
         entry: webpackOptions.entry,
         output: webpackOptions.output,
@@ -46,39 +46,36 @@ gulp.task('js', function(done) {
     });
 });
 
-gulp.task('jshint', function() {
-    return gulp
-        .src('src/*.js')
-        .pipe(jshint({ esnext: true }))
-        .pipe(jshint.reporter(stylish));
-});
+gulp.task('jshint', () => gulp
+    .src('src/*.js')
+    .pipe(jshint({ esnext: true }))
+    .pipe(jshint.reporter(stylish))
+)
 
-gulp.task('sass', function() {
-    return gulp
-        .src('sass/*.scss')
-        .pipe(sass({
-            includePaths: require('node-bourbon').includePaths,
-            outputStyle: 'compressed'
-        }))
-        .pipe(gulp.dest('public'));
-});
+gulp.task('sass', () => gulp
+    .src('sass/*.scss')
+    .pipe(sass({
+        includePaths: require('node-bourbon').includePaths,
+        outputStyle: 'compressed'
+    }))
+    .pipe(gulp.dest('public'))
+);
 
 // watch tasks
-gulp.task('sass-watch', function(done) {
-    return gulp
-        .src('sass/*.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass({
-            includePaths: require('node-bourbon').includePaths,
-            outputStyle: 'expanded'
-        }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('public'))
-        .pipe(filter('*.css'))
-        .pipe(bs.stream());
-});
+gulp.task('sass-watch', (done) => gulp
+    .src('sass/*.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+        includePaths: require('node-bourbon').includePaths,
+        outputStyle: 'expanded'
+    }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('public'))
+    .pipe(filter('*.css'))
+    .pipe(bs.stream())
+);
 
-gulp.task('js-watch', function() {
+gulp.task('js-watch', () => {
     webpack({
         entry: webpackOptions.entry,
         output: webpackOptions.output,
@@ -92,7 +89,7 @@ gulp.task('js-watch', function() {
 
 gulp.task('default', ['clean', 'jshint', 'js', 'sass']);
 
-gulp.task('serve', ['clean', 'jshint', 'js-watch', 'sass-watch'], function() {
+gulp.task('serve', ['clean', 'jshint', 'js-watch', 'sass-watch'], () => {
     bs.init({ server: 'public' });
     gulp.watch('public/*.html', bs.reload);
     gulp.watch('src/*.js', ['jshint']);
