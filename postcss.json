@@ -1,0 +1,18 @@
+{
+  "use": [
+    "postcss-import",
+    "postcss-nested",
+    "postcss-simple-vars",
+    "postcss-calc",
+    "autoprefixer",
+    "cssnano"
+  ],
+  "postcss-simple-vars": {
+    "variables": {
+      "grid-spacing": "32px",
+      "grid-line-size": "1px",
+      "grid-opponent-line-color": "#eca",
+      "grid-player-line-color": "#ace"
+    }
+  }
+}

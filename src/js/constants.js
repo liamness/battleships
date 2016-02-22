@@ -1,5 +1,5 @@
-var shipSizeSmall = [5, 1],
-    shipSizeLarge = [4, 1];
+const shipSizeSmall = [5, 1];
+const shipSizeLarge = [4, 1];
 
 export default {
     gridSize: 10,

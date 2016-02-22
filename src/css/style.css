@@ -1,6 +1,4 @@
-@import "bourbon";
-
-@import "node_modules/normalize.css/normalize";
+@import "normalize.css";
 
 html, body {
     height: 100%;
@@ -8,7 +6,8 @@ html, body {
 
 body {
     display: flex;
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
     font-family: sans-serif;
@@ -16,7 +15,7 @@ body {
 }
 
 .game {
-    @include user-select(none);
+    user-select: none;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
@@ -28,69 +27,68 @@ body {
     line-height: 1;
 }
 
-// variables for grid styling to make resizing easy
-
-$grid-spacing: 32px;
-$grid-line-size: 1px;
-$grid-opponent-line-color: #eca;
-$grid-player-line-color: #ace;
 $grid-opponent-gradient:
     $grid-opponent-line-color,
     $grid-opponent-line-color $grid-line-size,
     transparent $grid-line-size,
-    transparent $grid-spacing - $grid-line-size,
-    $grid-opponent-line-color $grid-spacing - $grid-line-size,
+    transparent calc($grid-spacing - $grid-line-size),
+    $grid-opponent-line-color calc($grid-spacing - $grid-line-size),
     $grid-opponent-line-color $grid-spacing;
 $grid-player-gradient:
     $grid-player-line-color,
     $grid-player-line-color $grid-line-size,
     transparent $grid-line-size,
-    transparent $grid-spacing - $grid-line-size,
-    $grid-player-line-color $grid-spacing - $grid-line-size,
+    transparent calc($grid-spacing - $grid-line-size),
+    $grid-player-line-color calc($grid-spacing - $grid-line-size),
     $grid-player-line-color $grid-spacing;
 
-// grid
-
+/* grid */
 .grid {
     position: relative;
-    width: $grid-spacing * 10; height: $grid-spacing * 10;
+    width: calc($grid-spacing * 10);
+    height: calc($grid-spacing * 10);
     border-width: $grid-line-size;
     border-style: solid;
     &--opponent {
         border-color: $grid-opponent-line-color;
-        background-image: repeating-linear-gradient($grid-opponent-gradient), repeating-linear-gradient(90deg, $grid-opponent-gradient);
+        background-image:
+            repeating-linear-gradient($grid-opponent-gradient),
+            repeating-linear-gradient(90deg, $grid-opponent-gradient);
     }
     &--player {
         border-color: $grid-player-line-color;
-        background-image: repeating-linear-gradient($grid-player-gradient), repeating-linear-gradient(90deg, $grid-player-gradient);
+        background-image:
+            repeating-linear-gradient($grid-player-gradient),
+            repeating-linear-gradient(90deg, $grid-player-gradient);
     }
 }
 
-// crosshair
-
+/* crosshair */
 .grid__crosshair {
-    width: $grid-spacing; height: $grid-spacing;
+    width: $grid-spacing;
+    height: $grid-spacing;
     position: absolute;
     box-sizing: border-box;
     border: 2px solid #000;
-    border-radius: $grid-spacing / 4;
-    &--hide{ display: none; }
+    border-radius: calc($grid-spacing / 4);
+    &--hide{
+        display: none;
+    }
 }
 
-// ships
-
+/* ships */
 .grid__ship, .grid__shot, .grid__crosshair {
     pointer-events: none;
 }
 
 .grid__ship {
-    @include transition-property(opacity, background, border-color);
-    @include transition-duration(0.2s);
-    @include transition-timing-function(linear);
+    transition-property: opacity, background, border-color;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
     position: absolute;
     box-sizing: border-box;
     border: 1px solid #000;
-    border-radius: $grid-spacing / 2;
+    border-radius: calc($grid-spacing / 2);
     background: rgba(0,0,0,0.5);
     &--hide { opacity: 0; }
 }
@@ -100,21 +98,21 @@ $grid-player-gradient:
     border-color: #f00;
 }
 
-// shots
-
+/* shots */
 .grid__shot {
-    @include transition-property(opacity, transform);
-    @include transition-duration(0.1s);
-    @include transition-timing-function(ease-in-out);
+    transition-property: opacity, transform;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
     position: absolute;
     box-sizing: border-box;
-    margin: $grid-spacing / 4;
-    width: $grid-spacing / 2; height: $grid-spacing / 2;
+    margin: calc($grid-spacing / 4);
+    width: calc($grid-spacing / 2);
+    height: calc($grid-spacing / 2);
     background: #000;
     border-radius: 50%;
     &--hide {
         opacity: 0;
-        @include transform(scale(0.75));
+        transform: scale(0.75);
     }
 }
 

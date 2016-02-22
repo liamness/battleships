@@ -2,12 +2,8 @@
 
 An excuse to play around with webpack and ES6 imports. Need to make the computer fight back at some point, and possibly also use WebRTC to create a PVP mode.
 
-## Build
+## Install Dependencies and Build
 ```
-gulp
-```
-
-## Run, watch for changes
-```
-gulp serve
+npm install
+npm run build
 ```
