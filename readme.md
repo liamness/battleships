@@ -7,3 +7,8 @@ An excuse to play around with webpack and ES6 imports. Need to make the computer
 npm install
 npm run build
 ```
+
+## Development
+```
+npm run server
+```
