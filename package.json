@@ -24,7 +24,9 @@
   "scripts": {
     "build": "npm run eslint & npm run postcss & npm run webpack",
     "eslint": "eslint src/js/**",
-    "postcss": "postcss -c postcss.json -o public/style.css src/css/style.css",
-    "webpack": "webpack"
+    "postcss": "postcss -c postcss.json",
+    "postcss-dev": "postcss -c postcss.dev.json -m",
+    "webpack": "webpack",
+    "webpack-dev": "webpack --config webpack.dev.config.js"
   }
 }

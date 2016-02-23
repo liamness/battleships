@@ -6,8 +6,7 @@
     "postcss-nested",
     "postcss-simple-vars",
     "postcss-calc",
-    "autoprefixer",
-    "cssnano"
+    "autoprefixer"
   ],
   "postcss-simple-vars": {
     "variables": {
