@@ -11,6 +11,7 @@
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
     "babel-preset-es2015-webpack": "^6.3.14",
+    "browser-sync": "^2.11.1",
     "cssnano": "^3.5.2",
     "eslint": "^2.2.0",
     "eslint-watch": "^2.1.8",
@@ -23,7 +24,7 @@
     "webpack": "^2.0.7-beta"
   },
   "scripts": {
-    "server": "./bin/server.sh",
-    "build": "./bin/build.sh"
+    "build": "make build",
+    "server": "make server"
   }
 }
