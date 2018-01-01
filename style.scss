@@ -1,5 +1,3 @@
-@import "normalize.css";
-
 html, body {
     height: 100%;
 }
@@ -28,35 +26,35 @@ body {
 }
 
 $grid-opponent-gradient:
-    $grid-opponent-line-color,
-    $grid-opponent-line-color $grid-line-size,
-    transparent $grid-line-size,
-    transparent calc($grid-spacing - $grid-line-size),
-    $grid-opponent-line-color calc($grid-spacing - $grid-line-size),
-    $grid-opponent-line-color $grid-spacing;
+    $gridOpponentLineColor,
+    $gridOpponentLineColor $gridLineSize,
+    transparent $gridLineSize,
+    transparent calc($gridSpacing - $gridLineSize),
+    $gridOpponentLineColor calc($gridSpacing - $gridLineSize),
+    $gridOpponentLineColor $gridSpacing;
 $grid-player-gradient:
-    $grid-player-line-color,
-    $grid-player-line-color $grid-line-size,
-    transparent $grid-line-size,
-    transparent calc($grid-spacing - $grid-line-size),
-    $grid-player-line-color calc($grid-spacing - $grid-line-size),
-    $grid-player-line-color $grid-spacing;
+    $gridPlayerLineColor,
+    $gridPlayerLineColor $gridLineSize,
+    transparent $gridLineSize,
+    transparent calc($gridSpacing - $gridLineSize),
+    $gridPlayerLineColor calc($gridSpacing - $gridLineSize),
+    $gridPlayerLineColor $gridSpacing;
 
 /* grid */
 .grid {
     position: relative;
-    width: calc($grid-spacing * 10);
-    height: calc($grid-spacing * 10);
-    border-width: $grid-line-size;
+    width: calc($gridSpacing * 10);
+    height: calc($gridSpacing * 10);
+    border-width: $gridLineSize;
     border-style: solid;
     &--opponent {
-        border-color: $grid-opponent-line-color;
+        border-color: $gridOpponentLineColor;
         background-image:
             repeating-linear-gradient($grid-opponent-gradient),
             repeating-linear-gradient(90deg, $grid-opponent-gradient);
     }
     &--player {
-        border-color: $grid-player-line-color;
+        border-color: $gridPlayerLineColor;
         background-image:
             repeating-linear-gradient($grid-player-gradient),
             repeating-linear-gradient(90deg, $grid-player-gradient);
@@ -65,12 +63,12 @@ $grid-player-gradient:
 
 /* crosshair */
 .grid__crosshair {
-    width: $grid-spacing;
-    height: $grid-spacing;
+    width: $gridSpacing;
+    height: $gridSpacing;
     position: absolute;
     box-sizing: border-box;
     border: 2px solid #000;
-    border-radius: calc($grid-spacing / 4);
+    border-radius: calc($gridSpacing / 4);
     &--hide{
         display: none;
     }
@@ -88,7 +86,7 @@ $grid-player-gradient:
     position: absolute;
     box-sizing: border-box;
     border: 1px solid #000;
-    border-radius: calc($grid-spacing / 2);
+    border-radius: calc($gridSpacing / 2);
     background: rgba(0,0,0,0.5);
     &--hide { opacity: 0; }
 }
@@ -105,9 +103,9 @@ $grid-player-gradient:
     transition-timing-function: ease-in-out;
     position: absolute;
     box-sizing: border-box;
-    margin: calc($grid-spacing / 4);
-    width: calc($grid-spacing / 2);
-    height: calc($grid-spacing / 2);
+    margin: calc($gridSpacing / 4);
+    width: calc($gridSpacing / 2);
+    height: calc($gridSpacing / 2);
     background: #000;
     border-radius: 50%;
     &--hide {

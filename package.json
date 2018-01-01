@@ -7,24 +7,24 @@
     "url": "git://github.com/liamness/battleships.git"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.3",
-    "babel-core": "^6.5.2",
-    "babel-loader": "^6.2.3",
-    "babel-preset-es2015-webpack": "^6.3.14",
-    "browser-sync": "^2.11.1",
+    "autoprefixer": "^7.1.2",
     "cssnano": "^3.5.2",
-    "eslint": "^2.2.0",
-    "eslint-watch": "^2.1.8",
-    "normalize.css": "^3.0.3",
-    "postcss-calc": "^5.2.0",
-    "postcss-cli": "^2.5.1",
-    "postcss-import": "^8.0.2",
-    "postcss-nested": "^1.0.0",
-    "postcss-simple-vars": "^1.2.0",
-    "webpack": "^2.0.7-beta"
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "http-server": "^0.10.0",
+    "postcss-calc": "^6.0.0",
+    "postcss-cli": "^4.1.0",
+    "postcss-import": "^10.0.0",
+    "postcss-nested": "^2.1.2",
+    "postcss-simple-vars": "^4.1.0"
   },
   "scripts": {
-    "build": "make build",
-    "server": "make server"
-  }
+    "build-css": "yarn postcss -w style.scss -o style.css",
+    "lint": "yarn eslint **/*.js",
+    "server": "yarn http-server",
+    "release": "git push origin master:gh-pages"
+  },
+  "license": "UNLICENSED",
+  "private": true
 }

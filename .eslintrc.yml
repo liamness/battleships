@@ -4,9 +4,15 @@ parserOptions:
 env:
   es6: true
   browser: true
-extends: 'eslint:recommended'
+extends: 'airbnb-base'
 rules:
-  indent: [2, 4]
-  quotes: [2, 'single']
-  linebreak-style: [2, 'unix']
-  semi: [2, 'always']
+  import/extensions:
+    - 2
+    - js: 'always'
+overrides:
+  files: 'postcss.config.js'
+  env:
+    node: true
+  rules:
+    import/no-extraneous-dependencies:
+      - devDependencies: true
