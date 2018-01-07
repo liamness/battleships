@@ -6,6 +6,12 @@
     "type": "git",
     "url": "git://github.com/liamness/battleships.git"
   },
+  "browserslist": [
+    "last 2 versions",
+    "not < 0.25%",
+    "not UCAndroid > 0",
+    "not OperaMini all"
+  ],
   "devDependencies": {
     "autoprefixer": "^7.1.2",
     "cssnano": "^3.5.2",
@@ -15,8 +21,7 @@
     "http-server": "^0.10.0",
     "postcss-calc": "^6.0.0",
     "postcss-cli": "^4.1.0",
-    "postcss-import": "^10.0.0",
-    "postcss-nested": "^2.1.2",
+    "postcss-nested": "3.0.0",
     "postcss-simple-vars": "^4.1.0"
   },
   "scripts": {

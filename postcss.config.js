@@ -1,4 +1,3 @@
-const postcssImport = require('postcss-import');
 const postcssNested = require('postcss-nested');
 const postcssSimpleVars = require('postcss-simple-vars');
 const postcssCalc = require('postcss-calc');
@@ -13,7 +12,6 @@ const variables = {
 
 module.exports = {
   plugins: [
-    postcssImport(),
     postcssNested(),
     postcssSimpleVars({ variables }),
     postcssCalc(),
